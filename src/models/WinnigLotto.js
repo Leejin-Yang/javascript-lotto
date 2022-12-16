@@ -22,7 +22,7 @@ class WinningLotto {
   }
 
   isIncludeBonus(buyerLotto) {
-    return this.#bonus.isInclude(buyerLotto);
+    return this.#bonus.contains(buyerLotto);
   }
 }
 
