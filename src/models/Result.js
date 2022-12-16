@@ -12,7 +12,7 @@ class Result {
     const totalReward = this.#calculateTotalPrize();
     const profitRate = (totalReward / money) * 100;
 
-    return profitRate.toLocaleString();
+    return profitRate.toLocaleString(undefined, { minimumFractionDigits: 1 });
   }
 
   #calculateTotalPrize() {
