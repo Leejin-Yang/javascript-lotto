@@ -11,7 +11,7 @@ const WinningLotto = require('../models/WinnigLotto');
 const LottoMachine = require('../utils/LottosMaker');
 const RandomNumberGenerator = require('../utils/RandomNumberGenerator');
 const { readMoney, readLottoNumbers, readBonusNumber } = require('../views/InputView');
-const { printError, printLottos, printResult } = require('../views/OutputView');
+const { printError, printLottos, printResult, printEmptyLine } = require('../views/OutputView');
 
 class LottoGameController {
   #money;
@@ -29,7 +29,9 @@ class LottoGameController {
       LottoGameController.#validateNumberInput(input);
       this.#money = new Money(+input);
       this.#lottos = LottoMachine.issueLottos(this.#money.count(), RandomNumberGenerator.generate);
+      printEmptyLine();
       printLottos(this.#money.count(), this.#lottos.toString());
+      printEmptyLine();
       readLottoNumbers(this.#onLottoNumbersSubmit.bind(this));
     } catch (error) {
       LottoGameController.#runError(error);
@@ -43,6 +45,7 @@ class LottoGameController {
         return +number;
       });
       this.#lotto = new Lotto(lottoNumbers);
+      printEmptyLine();
       readBonusNumber(this.#onBonusNumberSubmit.bind(this));
     } catch (error) {
       LottoGameController.#runError(error);
@@ -55,6 +58,7 @@ class LottoGameController {
       const bonus = new Bonus(+input);
       const winningLotto = new WinningLotto(this.#lotto, bonus);
       const result = new Result(this.#getResult(winningLotto));
+      printEmptyLine();
       printResult(result, this.#money.getMoney());
       Console.close();
     } catch (error) {
